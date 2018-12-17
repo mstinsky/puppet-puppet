@@ -356,7 +356,7 @@ class puppet::server(
   Hash[String, Data] $additional_settings = $::puppet::server_additional_settings,
   Boolean $foreman = $::puppet::server_foreman,
   Stdlib::HTTPUrl $foreman_url = $::puppet::server_foreman_url,
-  Optional[Stdlib::Absolutepath] $foreman_ssl_ca = $::puppet::server_foreman_ssl_ca,
+  Variant[Undef, Stdlib::Absolutepath, String[0,0]] $foreman_ssl_ca = $::puppet::server_foreman_ssl_ca,
   Optional[Stdlib::Absolutepath] $foreman_ssl_cert = $::puppet::server_foreman_ssl_cert,
   Optional[Stdlib::Absolutepath] $foreman_ssl_key = $::puppet::server_foreman_ssl_key,
   Boolean $server_foreman_facts = $::puppet::server_foreman_facts,

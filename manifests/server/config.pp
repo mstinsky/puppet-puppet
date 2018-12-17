@@ -273,6 +273,14 @@ class puppet::server::config inherits puppet::config {
   if $::puppet::server::foreman {
     # Include foreman components for the puppetmaster
     # ENC script, reporting script etc.
+
+    if $::puppet::server::foreman_ssl_ca != undef {
+      $_ssl_ca = $::puppet::server::foreman_ssl_ca
+    }
+    else {
+      $_ssl_ca = $::puppet::server::ssl_ca_cert
+    }
+
     class { 'foreman::puppetmaster':
       foreman_url    => $::puppet::server::foreman_url,
       receive_facts  => $::puppet::server::server_foreman_facts,
@@ -282,7 +290,7 @@ class puppet::server::config inherits puppet::config {
       enc_api        => $::puppet::server::enc_api,
       report_api     => $::puppet::server::report_api,
       timeout        => $::puppet::server::request_timeout,
-      ssl_ca         => pick($::puppet::server::foreman_ssl_ca, $::puppet::server::ssl_ca_cert),
+      ssl_ca         => $_ssl_ca,
       ssl_cert       => pick($::puppet::server::foreman_ssl_cert, $::puppet::server::ssl_cert),
       ssl_key        => pick($::puppet::server::foreman_ssl_key, $::puppet::server::ssl_cert_key),
     }
